@@ -5,6 +5,11 @@ global x_d;
 global l1 l2 l3
 global h_axes
 
+color0 = [0 0 0];
+color1 = [1 0 0];
+color2 = [0 0 1];
+color3 = [0 1 0];
+color4 = [1 0 1];
 
 a1 = joints(1);
 a12 = joints(1) + joints(2);
@@ -19,17 +24,16 @@ pos1 = [origin pos1];
 pos2 = [pos1 pos2];
 pos = [pos2 pos];
 
-hold on
+plot3(pos1(1, :), pos1(2, :), pos1(3, :), 'visible', 'on', 'Parent', h_axes, 'LineWidth',3);
 
-plot3(pos1(1, :), pos1(2, :), pos1(3, :), 'visible', 'on', 'Parent', h_axes, 'LineWidth',3, 'Color', [0 1 0]);
+plot3(pos2(1, :), pos2(2, :), pos2(3, :), 'visible', 'on', 'Parent', h_axes, 'LineWidth',3);
 
-plot3(pos2(1, :), pos2(2, :), pos2(3, :), 'visible', 'on', 'Parent', h_axes, 'LineWidth',3, 'Color', [1 0 0]);
-
-plot3(pos(1, :), pos(2, :), pos(3, :), 'visible', 'on', 'Parent', h_axes, 'LineWidth', 3, 'Color', 'r')
+plot3(pos(1, :), pos(2, :), pos(3, :), 'visible', 'on', 'Parent', h_axes, ... 
+    'LineWidth', 3, 'Color',  color4);
 
 % Draw the target
-% plot3([x_d(1)-0.01 x_d(1)+0.01],[x_d(2)-0.01 x_d(2)+0.01],[-0.01 0.01], ...
-%   'visible', 'on', 'Parent', h_axes, 'LineWidth', 1)
+plot3([x_d(1)-0.01 x_d(1)+0.01],[x_d(2)-0.01 x_d(2)+0.01],[-0.01 0.01], ...
+    'visible', 'on', 'Parent', h_axes, 'LineWidth', 1)
 
 
 % set(link1,'Parent',h_axes,'Xdata',[0 pos1(1)], ...
