@@ -5,7 +5,7 @@ num_links = 4;
 link_lengths = ones(1, num_links) * 2;
 
 % Position target
-x_d = [ 5 5 1 ].';
+x_d = [ 5 3 1 ].';
 
 % Rotation target
 x_q = [ 1 0 0 0 ].';
@@ -30,5 +30,5 @@ upper_bounds = [ max_yaw; max_pitch; max_roll ];
 [final_angles] = optim(x, link_lengths, lower_bounds, upper_bounds);
 
 % Do the forward kinematics again
-[joint_positions, final_rot] = fk(link_lengths, final_angles);
+[joint_positions] = fk(link_lengths, final_angles);
 draw3(joint_positions);
