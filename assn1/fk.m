@@ -1,12 +1,14 @@
-function [joint_positions, final_rot] = fk( link_lengths, joint_angles )
+function [joint_positions] = fk( link_lengths, joint_angles )
 
 joint_positions = zeros(3, numel(link_lengths) + 1);
-final_rot = eye(3);
 
-for i = numel(link_lengths) : -1 : 1
-  rot = eul2rotm(joint_angles(:, i)');
-  joint_positions(:, i + 1:end) = rot * (joint_positions(:, i + 1:end) + [ link_lengths(i) 0 0 ]');
-  final_rot = rot * final_rot;
+for link = size(link_lengths, 2) : -1 : 1
+    % get a rotation matrix from the joint (Euler) angles     
+    rotation = eul2rotm(joint_angles(:, link)');
+    
+    % translate along x because that is the principal axis of the link    
+    translation = [ link_lengths(link) 0 0 ]';
+    joint_positions(:, link + 1:end) = rotation * (joint_positions(:, link + 1:end) + translation);
 end
 
 end
