@@ -6,8 +6,6 @@ function [cost] = obstacleCost(linkPoints,obstacles)
 %TODO: make distance from middle of links instead of endpoints
 link_t = linkPoints.';
 obs_t = obstacles.';
-display(link_t);
-display(obs_t);
 N = size(link_t,1);
 M = size(obs_t,1);
 
