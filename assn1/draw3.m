@@ -2,7 +2,7 @@ function draw3(joint_positions, obs)
     figure
         
     % Plot the links
-    plot3(joint_positions(1, :), joint_positions(2, :), joint_positions(3, :))
+    plot3(joint_positions(1, :), joint_positions(2, :), joint_positions(3, :), 'r')
     hold on
 
     % Plot the joint positions
