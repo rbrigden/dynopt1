@@ -1,7 +1,0 @@
-function [dist] = quatDistance(q0,q1)
-%QUATDISTANCE find differece
-    dist = abs(1 - dot(q0, q1)^2);
-end
-
-
-

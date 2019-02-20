@@ -3,5 +3,5 @@ function cost = objective( x, link_lengths, angles, obs)
   [position_error] = residual(joint_positions, x);
   obstacle_cost = obstacleCost(joint_positions, obs);
   %   orientation_cost = quatDistance();
-  cost = sum(position_error .^ 2) + 0.2 * obstacle_cost; %+ orientation_cost;
+  cost = sum(position_error .^ 2) + 0.2 * obstacle_cost; % + orientation_cost;
 end
