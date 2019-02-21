@@ -8,7 +8,7 @@ link_lengths = ones(1, num_links) * 2;
 x_d = [ 5 3 1 ].';
 
 % Rotation target
-x_q = [ 1 0 0 0 ].';
+x_q = [ 1 0 0 1 ].';
 
 % Overall target
 x = [ x_d ; x_q ];
