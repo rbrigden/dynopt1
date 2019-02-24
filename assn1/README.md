@@ -9,7 +9,14 @@ We then used this forward kinematics program in conjunction with soft constrints
 Using these cost funcitons and forward kinematics programs in matlab's function [fmincon](https://www.mathworks.com/help/optim/ug/fmincon.html) function we were able to perform a constrined optimization, and find an optimal positioning for the robotic snake arm.
 
 ## Part 2
+Once we had created the simulation for this robotic arm's traversal of the space while it avoids obstacles a systematic way to compute the derivative of the tip position and orientation with respect to each set of joint angles. 
+
+We used the the matlab function [xyz] to perform an analytical derivative on the cost function that we had developed in the previous part. 
+
+Once we did this we found that providing a derivative to the optimization program from part 1, both our performance and solutions improved significantly.
 
 ## Part 3
 
+
 ## Part 4
+Finally we were tasked with finding multiple distinct local minima, and providing the user with a choice of local minima. We did so by probing different starting points and seeing what local minima those different starting points gave us.
