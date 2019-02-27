@@ -1,0 +1,10 @@
+function [final_angles] = optim( x, link_lengths, obs, low, high, options)
+    num_links = numel(link_lengths);
+    A = (1 0 0)';  
+    B = repmat(A,1,4)
+    initial_angles = 
+    display(initial_angles);
+    f = @(angles) objective(x, link_lengths, angles, obs);
+    %[final_angles, cost] = fmincon(f, initial_angles, [], [], [], [], low, high, [], options)
+    final_angles = fmincon(f, initial_angles, [], [], [], [], low, high, [], options);
+end
