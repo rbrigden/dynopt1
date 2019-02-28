@@ -26,5 +26,4 @@ end
 
 final_rotation =  rot_matrix(:,:,4)*rot_matrix(:,:,3)*rot_matrix(:,:,2)*rot_matrix(:,:,1);
 final_quaternion = rotm2quat(final_rotation);
-display(final_quaternion);
 end

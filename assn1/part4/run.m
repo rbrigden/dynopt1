@@ -11,7 +11,7 @@ x_d = [ 5 3 1 ].';
 x_q = [ 1 0 0 1 ].';
 
 % Overall target
-x = [ x_d ; x_q ];
+target = [ x_d ; x_q ];
 
 % Define obstables (x, y, z, r)
 num_obstacles = 3;
@@ -35,9 +35,21 @@ max_yaw = ( pi / 2) * ones(1, num_links);
 lower_bounds = [ min_yaw; min_pitch; min_roll ];
 upper_bounds = [ max_yaw; max_pitch; max_roll ];
 
-N = 180;
-for w = 1:N
-    initial_angles = repmat(A, 1,num_links) * -(2 * w * pi)/N;
-    [final_angles] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, initial_angles);
+
+minCost = 0;
+for x = 0: 1 : (2*pi)
+    for y = 0: 1 : (2*pi)
+        for z = 0: 1 : (2*pi)
+            initial_angles = repmat([x y z].', 1,num_links) * pi;
+            [final_angles, cost] = optim(target, link_lengths, obs, lower_bounds, upper_bounds, initial_angles);
+            
+            if (cost < minCost)
+                minCost = cost;
+                best_initial = initial_angles;
+                best_final_angles = final_angles;
+            end
+        end 
+    end
 end
+[joint_positions] = fk(link_lengths, best_final_angles);
 draw3(joint_positions, obs);
