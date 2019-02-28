@@ -1,4 +1,4 @@
-function [joint_positions, final_quaternion] = fk( link_lengths, joint_angles )
+function [joint_positions] = fk( link_lengths, joint_angles )
 
 joint_positions = zeros(3, numel(link_lengths) + 1);
 rot_matrix = ones(3);
@@ -24,7 +24,4 @@ for link = size(link_lengths, 2) : -1 : 1
     joint_positions(:, link+1:end) = rotation * (joint_positions(:, link+1:end) + translation);
 end
 
-final_rotation =  rot_matrix(:,:,4)*rot_matrix(:,:,3)*rot_matrix(:,:,2)*rot_matrix(:,:,1);
-final_quaternion = rotm2quat(final_rotation);
-display(final_quaternion);
 end
