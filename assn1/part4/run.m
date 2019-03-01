@@ -5,13 +5,13 @@ num_links = 4;
 link_lengths = ones(1, num_links) * 2;
 
 % Position target
-x_d = [ 5 3 1 ].';
+target_d = [ 5 3 1 ].';
 
 % Rotation target
-x_q = [ 1 0 0 1 ].';
+target_q = [ 1 0 0 1 ].';
 
 % Overall target
-target = [ x_d ; x_q ];
+target = [ target_d ; target_q ];
 
 % Define obstables (x, y, z, r)
 num_obstacles = 3;
@@ -37,9 +37,9 @@ upper_bounds = [ max_yaw; max_pitch; max_roll ];
 
 
 minCost = 0;
-for x = 0: 1 : (2*pi)
-    for y = 0: 1 : (2*pi)
-        for z = 0: 1 : (2*pi)
+for x = 0: pi/3 : (2*pi)
+    for y = 0: pi/3 : (2*pi)
+        for z = 0: pi/3 : (2*pi)
             initial_angles = repmat([x y z].', 1,num_links) * pi;
             [final_angles, cost] = optim(target, link_lengths, obs, lower_bounds, upper_bounds, initial_angles);
             
