@@ -41,25 +41,33 @@ lower_bounds = [ min_yaw; min_pitch; min_roll ];
 upper_bounds = [ max_yaw; max_pitch; max_roll ];
 
 % Optimize joint angles (Just joint position. No rotation yet).
-formatSpec = '%s took %f seconds, had a final cost of %f and ran for %d iterations\n';
 
+tic;
+
+% SPQ:
 algo = 'sqp';
 options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
-tic;
-[final_angles, cost, output] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
-timerVal = toc;
-fprintf(formatSpec, algo, tic-timerVal, cost, output.iterations);
+SPCTimerStart = toc;
+[~, SPCcost, SPCoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
+SPCTimerEnd = toc;
 
+% Interior-Point
 algo = 'interior-point';
 options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
-tic;
-[final_angles, cost, output] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
-timerVal = toc;
-fprintf(formatSpec, algo, tic-timerVal, cost, output.iterations);
+IPTimerStart = toc;
+[~, IPcost, IPoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
+IPTimerEnd = toc;
 
+
+% Active-set
 algo = 'active-set';
 options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
-tic;
-[final_angles, cost, output] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
-timerVal = toc;
-fprintf(formatSpec, algo, timerVal, cost, output.iterations);
+ASTimerStart = toc;
+[~, AScost, ASoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
+ASTimerEnd = toc;
+
+
+formatSpec = '%s took %f seconds, had a final cost of %f and ran for %d iterations\n';
+fprintf(formatSpec, algo, SPCTimerEnd-SPCTimerStart, SPCcost, SPCoutput.iterations);
+fprintf(formatSpec, algo, IPTimerEnd-IPTimerStart, IPcost, IPoutput.iterations);
+fprintf(formatSpec, algo, ASTimerEnd-ASTimerStart, AScost, ASoutput.iterations);
