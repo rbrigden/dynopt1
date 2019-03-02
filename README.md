@@ -8,15 +8,15 @@ The inverse kinematics problem calls for finding the euler angle parameters for 
 
 Our soft constraints (cost functions) are
 
-Euclidean distance from end-effector tip to the target position.
-Quaternion difference between end effector and the target quaternion.
-Sum of the euclidean distances from each link end to the closest point on the obstacle surface.
+1. Euclidean distance from end-effector tip to the target position.
+2. Quaternion difference between end effector and the target quaternion.
+3. Sum of the euclidean distances from each link end to the closest point on the obstacle surface.
 
 Note that the overall cost is a convex combination of these costs.
 
 Our hard constraints are
-Minimum angle value for all joints.
-Maximum angle value for all joints.
+1. Minimum angle value for all joints.
+2. Maximum angle value for all joints.
 
 
 
