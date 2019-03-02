@@ -12,13 +12,10 @@ angles = [a1 a2 a3].'
 
 R = rotation(angles(1), angles(2), angles(3));
 p0 = sym('p', [3, 1])
-q = sym('q', [3, 1])
 
 l1 = sym('l', [3, 1])
 p1 = R * (p0 + l1)
 
 
 dp_dtheta = jacobian(p1, angles);
-
-e = (p0 - q).' * (p0 - q);
 

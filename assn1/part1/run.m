@@ -1,11 +1,13 @@
 num_links = 4;
 
-% TODO: Need to croak if we can't reach the final position given these
-% link lengths.
 link_lengths = ones(1, num_links) * 2;
 
 % Position target
 x_d = [ 5 3 1 ].';
+
+if ~checkValidTarget(link_lengths, x_d)
+    display("Cannot feasibly reach target position. Will get as close as possible subject to constraints and other costs.")
+end
 
 % Rotation target
 x_q = [ 1 0 0 1 ].';
