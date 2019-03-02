@@ -66,6 +66,8 @@ ASTimerStart = toc;
 [~, AScost, ASoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
 ASTimerEnd = toc;
 
+% 
+
 
 formatSpec = '%s took %f seconds, had a final cost of %f and ran for %d iterations\n';
 fprintf(formatSpec, algo, SPCTimerEnd-SPCTimerStart, SPCcost, SPCoutput.iterations);
