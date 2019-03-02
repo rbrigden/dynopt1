@@ -36,20 +36,54 @@ lower_bounds = [ min_yaw; min_pitch; min_roll ];
 upper_bounds = [ max_yaw; max_pitch; max_roll ];
 
 
+
+totalRuns = 8;
+costArray = zeros(2,totalRuns);
+initialAnglesArray = zeros(3, num_links, totalRuns);
+finalAnglesArray = zeros(3, num_links, totalRuns);
+
+i = 1;
 minCost = 0;
 for x = 0: pi/3 : (2*pi)
     for y = 0: pi/3 : (2*pi)
         for z = 0: pi/3 : (2*pi)
-            initial_angles = repmat([x y z].', 1,num_links) * pi;
+            initial_angles = repmat([x y z].', 1, num_links);
             [final_angles, cost] = optim(target, link_lengths, obs, lower_bounds, upper_bounds, initial_angles);
-            
-            if (cost < minCost)
-                minCost = cost;
-                best_initial = initial_angles;
-                best_final_angles = final_angles;
-            end
+            costArray(:,i) = [cost;i];
+            initialAnglesArray(:,:,i) = initial_angles;
+            finalAnglesArray(:,:,i) = final_angles;
+            i = i+1;
         end 
     end
 end
-[joint_positions] = fk(link_lengths, best_final_angles);
+
+bestRuns = maxk(costArray,3,2);
+bestInitialAngles = zeros(3, num_links, 3);
+bestFinalAnglesArray = zeros(3, num_links, 3);
+
+for costI = 1:totalRuns
+    if costArray(1,costI) == bestRuns(1,1)
+        bestInitialAngles(:,:,1) = initialAnglesArray(:,:,costI);
+        bestFinalAnglesAngles(:,:,1) = finalAnglesArray(:,:,costI);
+    end
+    if costArray(1,costI) == bestRuns(1,2)
+        bestInitialAngles(:,:,2) = initialAnglesArray(:,:,costI);
+        bestFinalAnglesAngles(:,:,2) = finalAnglesArray(:,:,costI);
+    end
+    if costArray(1,costI) == bestRuns(1,3)
+        bestInitialAngles(:,:,3) = initialAnglesArray(:,:,costI);
+        bestFinalAnglesAngles(:,:,3) = finalAnglesArray(:,:,costI);
+    end
+end
+
+[joint_positions] = fk(link_lengths, bestFinalAnglesAngles(:,:,1));
 draw3(joint_positions, obs);
+hold on
+
+[joint_positions] = fk(link_lengths, bestFinalAnglesAngles(:,:,2));
+draw3(joint_positions, obs);
+hold on
+
+[joint_positions] = fk(link_lengths, bestFinalAnglesAngles(:,:,3));
+draw3(joint_positions, obs);
+hold on
