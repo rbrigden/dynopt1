@@ -45,40 +45,40 @@ upper_bounds = [ max_yaw; max_pitch; max_roll ];
 tic;
 
 % SQP:
-SQPalgo = 'sqp';
-options = optimoptions(@fmincon,'Algorithm',SQPalgo,'MaxFunctionEvaluations',1500, 'Display', 'off');
+algo = 'sqp';
+options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
 SQPTimerStart = toc;
 [~, SQPcost, SQPoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
 SQPTimerEnd = toc;
 
 % Interior-Point
-IPalgo = 'interior-point';
-options = optimoptions(@fmincon,'Algorithm',IPalgo,'MaxFunctionEvaluations',1500, 'Display', 'off');
+algo = 'interior-point';
+options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
 IPTimerStart = toc;
 [~, IPcost, IPoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
 IPTimerEnd = toc;
 
 
 % Active-set
-ASalgo = 'active-set';
-options = optimoptions(@fmincon,'Algorithm',ASalgo,'MaxFunctionEvaluations',1500, 'Display', 'off');
+algo = 'active-set';
+options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
 ASTimerStart = toc;
 [~, AScost, ASoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
 ASTimerEnd = toc;
 
 
 % Trust-Region-Reflective
-% TRRalgo = 'trust-region-reflective';
-% options = optimoptions(@fmincon,'Algorithm',TRRalgo,  'SpecifyObjectiveGradient',true,'MaxFunctionEvaluations',1500, 'Display', 'off');
-% TRRTimerStart = toc;
-% [~, TRRcost, TRRoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
-% TRRTimerEnd = toc;
+TRRalgo = 'trust-region-reflective';
+options = optimoptions(@fmincon,'Algorithm',algo,'MaxFunctionEvaluations',1500, 'Display', 'off');
+TRRTimerStart = toc;
+[~, TRRcost, TRRoutput] = optim(x, link_lengths, obs, lower_bounds, upper_bounds, options);
+TRRTimerEnd = toc;
 
 
 formatSpec = '%s took %f seconds, had a final cost of %f and ran for %d iterations\n';
 fprintf(formatSpec, SQPalgo, SPCTimerEnd-SPCTimerStart, SPCcost, SPCoutput.iterations);
 fprintf(formatSpec, IPalgo, IPTimerEnd-IPTimerStart, IPcost, IPoutput.iterations);
 fprintf(formatSpec, ASalgo, ASTimerEnd-ASTimerStart, AScost, ASoutput.iterations);
-% fprintf(formatSpec, TRRalgo, TRRTimerEnd-TRRTimerStart, TRRcost, TRRoutput.iterations);
+fprintf(formatSpec, TRRalgo, ASTimerEnd-ASTimerStart, AScost, ASoutput.iterations);
 
 
